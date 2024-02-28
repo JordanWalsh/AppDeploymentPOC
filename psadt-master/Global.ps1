@@ -1,11 +1,9 @@
 # Vars
-[string]$Desktop = [Environment]::GetFolderPath('Desktop')
 [string]$WDADesktop = "C:\Users\WDAGUtilityAccount\Desktop"
-[string]$Application = "$(& git branch --show-current)"
+[string]$Application = Get-Location | Select-Object | %{$_.ProviderPath.Split("\")[-1]}
 [string]$Cache = "$env:ProgramData\win32app\$Application"
 [string]$LogonCommand = "LogonCommand.ps1"
 
 # Cache resources
 Remove-Item -Path "$Cache" -Recurse -Force -ErrorAction Ignore
-Copy-Item -Path "App" -Destination "$Cache" -Recurse -Force -Verbose -ErrorAction Ignore
-explorer "$Cache"
+Copy-Item -Path $PSScriptRoot -Destination "$Cache" -Recurse -Force -Verbose -ErrorAction Ignore
