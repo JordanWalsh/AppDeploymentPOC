@@ -1,5 +1,5 @@
 # Vars
-[string]$Desktop = [Environment]::GetFolderPath('DesktopDirectory')
+[string]$Desktop = [Environment]::GetFolderPath('Desktop')
 [string]$WDADesktop = "C:\Users\WDAGUtilityAccount\Desktop"
 [string]$Application = "$(& git branch --show-current)"
 [string]$Cache = "$env:ProgramData\win32app\$Application"
