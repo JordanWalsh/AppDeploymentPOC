@@ -1,1 +1,0 @@
-winget install --id 7zip.7zip --exact --accept-package-agreements --accept-source-agreements --silent
