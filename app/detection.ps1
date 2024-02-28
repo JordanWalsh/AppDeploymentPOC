@@ -1,0 +1,1 @@
+# return a 0 value exit code and write a string value to STDOUT
