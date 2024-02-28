@@ -11,7 +11,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-File",
-                "${cwd}/.vscode/build.ps1"
+                "${cwd}/build.ps1"
             ],
             "group": {
                 "kind": "build",
