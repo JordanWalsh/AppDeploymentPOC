@@ -11,3 +11,9 @@
 ##     exit 1
 ## }
 
+if(!$TeamsClassic -and $TeamsNew){
+    Write-Host "Found it!"
+    exit 0
+} else {
+    exit 1
+}
