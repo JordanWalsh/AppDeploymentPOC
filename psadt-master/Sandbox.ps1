@@ -1,5 +1,5 @@
 # Vars
-. ".vscode\Global.ps1"
+. ".\Global.ps1"
 
 # Copy Resources
 Copy-Item -Path ".vscode\$LogonCommand" -Destination "$env:ProgramData\win32app\" -Recurse -Force -Verbose -ErrorAction Ignore

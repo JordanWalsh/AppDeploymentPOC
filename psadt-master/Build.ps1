@@ -1,9 +1,13 @@
 # Vars
 . ".\Global.ps1"
 
-# intunewin
-[string]$Uri = "https://github.com/microsoft/Microsoft-Win32-Content-Prep-Tool/raw/master"
-[string]$Exe = "IntuneWinAppUtil.exe"
+# Install IntuneWin32App module
+if(-not(Get-Module IntuneWin32App -ListAvailable)){
+    Install-Module IntuneWin32App -Scope CurrentUser -Force
+}
+
+# Connect to MS Graph
+Connect-MSIntuneGraph -TenantID "walshmdm.co.uk"
 
 # Source content prep tool
 if (-not(Test-Path -Path "$env:ProgramData\$Exe")){
@@ -11,7 +15,6 @@ if (-not(Test-Path -Path "$env:ProgramData\$Exe")){
 }
 
 # Create app library
-
 if (-not(Test-Path -Path "$env:ProgramData\win32app")){
     New-Item "$env:ProgramData\win32app"
 }
@@ -26,5 +29,15 @@ $processOptions = @{
 Start-Process @processOptions
 
 # Rename and prepare for upload
-Move-Item -Path "$env:TEMP\Deploy-Application.intunewin" -Destination "$env:ProgramData\win32app\$Application\$Application.intunewin" -Force -Verbose
+Move-Item -Path $Win32Path -Destination $Win32Location -Force -Verbose
 explorer $env:ProgramData\win32app
+
+# Upload to Intune
+$IntuneWinMetaData = Get-IntuneWin32AppMetaData -FilePath $Win32Location
+$RequirementRule = New-IntuneWin32AppRequirementRule -Architecture "All" -MinimumSupportedWindowsRelease "W10_22H2"
+$DetectionScriptFile = "$Cache\Detection.ps1"
+$DetectionRule = New-IntuneWin32AppDetectionRuleScript -ScriptFile $DetectionScriptFile -EnforceSignatureCheck $false -RunAs32Bit $false
+$InstallCommandLine = "Deploy-Application.ps1 -DeploymentType Install"
+$UninstallCommandLine = "Deploy-Application.ps1 -DeploymentType Uninstall"
+Add-IntuneWin32App -FilePath $Win32Location -DisplayName $Application -Description $Description -Publisher $Publisher -InstallExperience "system" -RestartBehavior "suppress" -DetectionRule $DetectionRule -RequirementRule $RequirementRule -InstallCommandLine $InstallCommandLine -UninstallCommandLine $UninstallCommandLine -Verbose
+

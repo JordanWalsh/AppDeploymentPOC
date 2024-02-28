@@ -72,4 +72,4 @@ if (Get-Content -Path "$Application\install.ps1" | Select-String "winget install
 
 # Begin
 Set-Location .\$Application\
-. .\install.ps1
+. .\Deploy-Application.ps1
