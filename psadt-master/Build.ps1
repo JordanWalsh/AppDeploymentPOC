@@ -7,7 +7,7 @@ if(-not(Get-Module IntuneWin32App -ListAvailable)){
 }
 
 # Connect to MS Graph
-Connect-MSIntuneGraph -TenantID "walshmdm.co.uk"
+Connect-MSIntuneGraph -TenantID $TenantID
 
 # Source content prep tool
 if (-not(Test-Path -Path "$env:ProgramData\$Exe")){

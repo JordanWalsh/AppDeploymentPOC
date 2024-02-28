@@ -2,7 +2,7 @@
 . ".\Global.ps1"
 
 # Copy Resources
-Copy-Item -Path ".vscode\$LogonCommand" -Destination "$env:ProgramData\win32app\" -Recurse -Force -Verbose -ErrorAction Ignore
+Copy-Item -Path ".\$LogonCommand" -Destination "$env:ProgramData\win32app\" -Recurse -Force -Verbose -ErrorAction Ignore
 
 # Prepare Sandbox
 @"
